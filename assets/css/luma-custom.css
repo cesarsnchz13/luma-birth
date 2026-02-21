@@ -1,0 +1,898 @@
+/* ============================================================
+   LUMA BIRTH — Custom Aesthetic Overhaul
+   /assets/css/luma-custom.css
+   Loaded AFTER style.css — uses specificity + !important only
+   where necessary to override Bootstrap/BSB defaults.
+
+   Palette (unchanged from brand):
+     Terracotta/CTA:    #C27160
+     Olive navbar:      #9A9985
+     About bg:          #F2F3EF
+     Pricing bg:        #F7F2EC
+     Text accent:       #8A4A43
+     Olive text:        #6B705A
+     Muted rose:        #D6C8C0
+     Cream:             #fff3cd
+
+   Fonts: Bodoni Moda (body/headings), Dancing Script (hw accent)
+   ============================================================ */
+
+
+/* ============================================================
+   0. CSS CUSTOM PROPERTIES (design tokens)
+   ============================================================ */
+:root {
+  --luma-terracotta:      #C27160;
+  --luma-terracotta-dk:   #A95B4A;
+  --luma-olive:           #9A9985;
+  --luma-olive-text:      #6B705A;
+  --luma-rose-accent:     #8A4A43;
+  --luma-muted-rose:      #D6C8C0;
+  --luma-cream:           #fff3cd;
+  --luma-about-bg:        #F2F3EF;
+  --luma-pricing-bg:      #F7F2EC;
+  --luma-white:           #ffffff;
+
+  --luma-transition:      0.3s ease;
+  --luma-radius-card:     1.25rem;
+  --luma-shadow-card:     0 4px 32px rgba(138, 74, 67, 0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  --luma-shadow-card-hover: 0 12px 48px rgba(138, 74, 67, 0.14), 0 4px 16px rgba(0,0,0,0.06);
+}
+
+
+/* ============================================================
+   1. GLOBAL TYPOGRAPHY REFINEMENTS
+   ============================================================ */
+
+h1, h2, h3, h4, h5, h6,
+.display-1, .display-2, .display-3, .display-4, .display-5 {
+  letter-spacing: -0.01em;
+}
+
+body {
+  line-height: 1.75;
+}
+
+p.fs-4 {
+  line-height: 1.85;
+}
+
+p {
+  color: var(--luma-olive-text);
+}
+
+
+/* ============================================================
+   2. ENTRANCE ANIMATION SYSTEM
+   Triggered by IntersectionObserver in luma-animate.js
+   ============================================================ */
+
+.luma-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luma-reveal.luma-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.luma-reveal:nth-child(2) { transition-delay: 0.12s; }
+.luma-reveal:nth-child(3) { transition-delay: 0.24s; }
+.luma-reveal:nth-child(4) { transition-delay: 0.36s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .luma-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* ============================================================
+   3. SECTION DECORATOR
+   Thin terracotta rule — editorial marker above headings
+   ============================================================ */
+
+.luma-section-decorator {
+  width: 48px;
+  height: 2px;
+  background: var(--luma-terracotta);
+  margin-bottom: 1.25rem;
+  border-radius: 2px;
+  opacity: 0.7;
+}
+
+
+/* ============================================================
+   4. NAVBAR
+   ============================================================ */
+
+.luma-nav-link {
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  transition: color var(--luma-transition), opacity var(--luma-transition);
+}
+
+.luma-nav-link:hover {
+  opacity: 0.72;
+}
+
+.luma-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Mobile offcanvas — warm tinted background */
+.luma-offcanvas {
+  background-color: var(--luma-about-bg) !important;
+}
+
+.luma-offcanvas .offcanvas-header {
+  border-bottom: 1px solid rgba(154, 153, 133, 0.2);
+  padding-bottom: 1rem;
+}
+
+.luma-offcanvas .nav-link {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--luma-olive-text) !important;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(154, 153, 133, 0.12);
+}
+
+.luma-offcanvas .nav-link:last-child {
+  border-bottom: none;
+}
+
+
+/* ============================================================
+   5. HERO SECTION
+   ============================================================ */
+
+.luma-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative radial glow — top right */
+.luma-hero::before {
+  content: '';
+  position: absolute;
+  top: -140px;
+  right: -180px;
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(194, 113, 96, 0.14) 0%, transparent 68%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Decorative radial glow — bottom left */
+.luma-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -120px;
+  left: -100px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(214, 200, 192, 0.18) 0%, transparent 68%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.luma-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 991.98px) {
+  .luma-hero {
+    min-height: auto;
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+}
+
+/* Eyebrow label above headline */
+.luma-hero-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--luma-muted-rose);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-family: 'Bodoni Moda', serif;
+}
+
+/* Hero headline */
+.luma-hero-headline {
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+/* Hero sub-copy */
+.luma-hero-sub {
+  color: rgba(242, 243, 239, 0.82);
+  max-width: 480px;
+}
+
+/* Hero stats strip below CTA */
+.luma-hero-stats {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.6rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(214, 200, 192, 0.25);
+}
+
+.luma-hero-stat {
+  font-size: 0.72rem;
+  color: rgba(242, 243, 239, 0.6);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.luma-hero-stat-divider {
+  color: rgba(214, 200, 192, 0.35);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+/* Decorative frame wrapper behind hero image */
+.luma-hero-img-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* Offset border frame */
+.luma-hero-img-wrap::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  bottom: 16px;
+  left: 16px;
+  border: 2px solid rgba(214, 200, 192, 0.4);
+  border-radius: 1.5rem;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Shadow glow layer */
+.luma-hero-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 60px rgba(138, 74, 67, 0.2);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.luma-hero-img {
+  position: relative;
+  z-index: 1;
+  border-radius: 1.25rem;
+  display: block;
+  width: 100%;
+  max-width: 520px;
+}
+
+@media (max-width: 991.98px) {
+  .luma-hero-img-wrap::before {
+    top: -10px;
+    right: -10px;
+    bottom: 10px;
+    left: 10px;
+    border-radius: 1rem;
+  }
+
+  .luma-hero-img {
+    border-radius: 1rem;
+    max-width: 340px;
+  }
+}
+
+/* CTA button */
+.luma-cta-btn {
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 20px rgba(194, 113, 96, 0.35) !important;
+  transition: transform var(--luma-transition),
+              box-shadow var(--luma-transition) !important;
+}
+
+.luma-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(194, 113, 96, 0.45) !important;
+}
+
+.luma-cta-btn:active {
+  transform: translateY(0);
+}
+
+
+/* ============================================================
+   5b. FEATURES STRIP
+   Three-pillar value section between hero and about
+   ============================================================ */
+
+.luma-features {
+  background-color: var(--luma-pricing-bg);
+  position: relative;
+  border-top: 1px solid rgba(214, 200, 192, 0.3);
+  border-bottom: 1px solid rgba(214, 200, 192, 0.3);
+}
+
+.luma-feature-item {
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.luma-feature-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(194, 113, 96, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.1rem;
+  color: var(--luma-terracotta);
+  transition: background var(--luma-transition), transform var(--luma-transition);
+}
+
+.luma-feature-item:hover .luma-feature-icon-wrap {
+  background: rgba(194, 113, 96, 0.18);
+  transform: translateY(-3px);
+}
+
+.luma-feature-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--luma-rose-accent);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.luma-feature-desc {
+  font-size: 0.875rem;
+  color: var(--luma-olive-text);
+  line-height: 1.7;
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+
+/* ============================================================
+   6. ABOUT SECTION
+   ============================================================ */
+
+.luma-about {
+  position: relative;
+  /* Subtle dot grid adds texture without overwhelming */
+  background-image: radial-gradient(circle, rgba(154, 153, 133, 0.14) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Headshot — clean circle portrait replacing blob mask */
+.luma-headshot-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.luma-headshot-img {
+  /* Fills the column width responsively, capped at 500px */
+  width: min(500px, 88%);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 12%;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 10px rgba(214, 200, 192, 0.35),
+    0 0 0 20px rgba(194, 113, 96, 0.07),
+    0 24px 72px rgba(138, 74, 67, 0.16);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luma-headshot-img:hover {
+  transform: scale(1.025);
+  box-shadow:
+    0 0 0 10px rgba(214, 200, 192, 0.45),
+    0 0 0 20px rgba(194, 113, 96, 0.11),
+    0 32px 88px rgba(138, 74, 67, 0.22);
+}
+
+@media (max-width: 767.98px) {
+  .luma-headshot-img {
+    width: min(340px, 85%);
+  }
+}
+
+.luma-about-bio {
+  font-size: 1.05rem !important; /* bring down from fs-4's 1.25rem */
+  color: var(--luma-olive-text);
+  line-height: 1.85;
+  margin-bottom: 1rem;
+}
+
+/* Editorial pull quote using Dancing Script */
+.luma-pull-quote {
+  border: none;
+  background: rgba(214, 200, 192, 0.16);
+  border-left: 3px solid var(--luma-terracotta);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0 1.5rem;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.35rem;
+  color: var(--luma-rose-accent);
+  line-height: 1.6;
+  font-style: normal;
+}
+
+@media (min-width: 768px) {
+  .luma-pull-quote {
+    font-size: 1.5rem;
+  }
+}
+
+/* Credential tags */
+.luma-about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.luma-about-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.38rem 0.9rem;
+  background: rgba(194, 113, 96, 0.07);
+  border: 1px solid rgba(194, 113, 96, 0.2);
+  border-radius: 2rem;
+  font-size: 0.775rem;
+  color: var(--luma-rose-accent);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   7. PRICING / SERVICES SECTION
+   ============================================================ */
+
+.luma-pricing {
+  position: relative;
+}
+
+.luma-pricing-sub {
+  color: var(--luma-olive-text);
+  max-width: 260px;
+  line-height: 1.7;
+}
+
+/* Premium boutique card */
+.luma-pricing-card {
+  background-color: #FEFAF7 !important;
+  border-radius: var(--luma-radius-card) !important;
+  box-shadow: var(--luma-shadow-card) !important;
+  transition: transform var(--luma-transition),
+              box-shadow var(--luma-transition);
+  height: 100%;
+}
+
+.luma-pricing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--luma-shadow-card-hover) !important;
+}
+
+/* Card eyebrow label */
+.luma-card-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--luma-terracotta);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+/* Card service title */
+.luma-card-title {
+  color: var(--luma-rose-accent);
+  font-size: 1.5rem !important;
+  letter-spacing: -0.01em;
+}
+
+/* Price display — replaces inline Times New Roman */
+.luma-price-display {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  margin-top: 0.75rem;
+}
+
+.luma-price {
+  font-family: 'Bodoni Moda', serif !important;
+  font-size: 3.25rem !important;
+  font-weight: 700 !important;
+  color: var(--luma-terracotta) !important;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.luma-price-unit {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--luma-olive-text);
+}
+
+/* Card description */
+.luma-card-desc {
+  font-size: 0.92rem;
+  color: var(--luma-olive-text);
+  line-height: 1.75;
+}
+
+/* Inclusions list */
+.luma-inclusions {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0 0 0;
+  border-top: 1px solid rgba(214, 200, 192, 0.35);
+  padding-top: 1.1rem;
+}
+
+.luma-inclusions li {
+  font-size: 0.875rem;
+  color: var(--luma-olive-text);
+  padding: 0.3rem 0;
+  padding-left: 1.4rem;
+  position: relative;
+  line-height: 1.5;
+}
+
+.luma-inclusions li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--luma-terracotta);
+  opacity: 0.6;
+}
+
+/* Per-card CTA button */
+.luma-card-cta {
+  font-size: 0.85rem !important;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1.5rem !important;
+  transition: transform var(--luma-transition),
+              box-shadow var(--luma-transition) !important;
+}
+
+.luma-card-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(194, 113, 96, 0.3) !important;
+}
+
+
+/* ============================================================
+   8. CONTACT SECTION
+   ============================================================ */
+
+.luma-contact {
+  background-color: var(--luma-white);
+}
+
+/* Contact image */
+.luma-contact-img-wrap {
+  position: relative;
+}
+
+.luma-contact-img {
+  box-shadow: 0 12px 48px rgba(138, 74, 67, 0.1) !important;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+}
+
+.luma-contact-img:hover {
+  transform: scale(1.012);
+  box-shadow: 0 20px 64px rgba(138, 74, 67, 0.16) !important;
+}
+
+/* Heading */
+.luma-contact-heading {
+  font-family: 'Bodoni Moda', serif;
+  letter-spacing: -0.015em;
+  color: var(--luma-rose-accent);
+}
+
+/* Sub-copy */
+.luma-contact-sub {
+  color: var(--luma-olive-text) !important;
+  line-height: 1.8;
+}
+
+/* Contact item row */
+.luma-contact-item {
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+/* Icon — terracotta tinted circle */
+.luma-contact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  background: rgba(194, 113, 96, 0.08);
+  border-radius: 50%;
+  transition: background var(--luma-transition);
+}
+
+.luma-contact-item:hover .luma-contact-icon {
+  background: rgba(194, 113, 96, 0.16);
+}
+
+/* Contact label */
+.luma-contact-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--luma-olive-text);
+  font-weight: 700;
+  margin-bottom: 0.25rem !important;
+}
+
+
+/* ============================================================
+   9. FOOTER
+   ============================================================ */
+
+.luma-footer {
+  background-color: var(--luma-about-bg);
+}
+
+.luma-footer-main {
+  padding: 3rem 0;
+}
+
+@media (min-width: 768px) {
+  .luma-footer-main {
+    padding: 4rem 0;
+  }
+}
+
+/* Override the 200px height from style.css */
+.luma-footer-logo {
+  height: 110px !important;
+  width: auto !important;
+}
+
+/* Footer contact widget */
+.luma-footer-contact p {
+  font-size: 0.9rem;
+  color: var(--luma-olive-text);
+}
+
+.luma-footer-contact a {
+  color: var(--luma-olive-text) !important;
+  transition: color var(--luma-transition);
+}
+
+.luma-footer-contact a:hover {
+  color: var(--luma-terracotta) !important;
+}
+
+/* Tiny uppercase section label */
+.luma-footer-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--luma-terracotta);
+  margin-bottom: 0.35rem;
+}
+
+/* Instagram link with icon + handle text */
+.luma-instagram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--luma-olive-text) !important;
+  text-decoration: none !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color var(--luma-transition), transform var(--luma-transition);
+}
+
+.luma-instagram-link:hover {
+  color: var(--luma-terracotta) !important;
+  transform: translateX(2px);
+}
+
+/* Footer copyright bar */
+.luma-footer-copyright {
+  padding: 1.25rem 0;
+  background-color: var(--luma-about-bg);
+  border-top: 1px solid rgba(154, 153, 133, 0.2);
+}
+
+.luma-copyright-text {
+  font-size: 0.8rem;
+  color: var(--luma-olive-text);
+  letter-spacing: 0.02em;
+}
+
+/* Footer nav links */
+.luma-footer-nav-link {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--luma-olive-text) !important;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  transition: color var(--luma-transition);
+}
+
+.luma-footer-nav-link:hover {
+  color: var(--luma-terracotta) !important;
+}
+
+.luma-footer-social {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ============================================================
+   10. BOOK / INQUIRY FORM SECTION
+   ============================================================ */
+
+.luma-book-section {
+  background-color: var(--luma-about-bg);
+  position: relative;
+  /* Subtle dot grid matching about section */
+  background-image: radial-gradient(circle, rgba(154, 153, 133, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.luma-book-sub {
+  color: var(--luma-olive-text);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* Card wrapper for the form */
+.luma-book-card {
+  background: #FEFAF7;
+  border-radius: 1.5rem;
+  box-shadow: var(--luma-shadow-card);
+  padding: 2.5rem 2rem;
+}
+
+@media (min-width: 768px) {
+  .luma-book-card {
+    padding: 3rem 3.5rem;
+  }
+}
+
+/* Field label */
+.luma-form-label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--luma-olive-text);
+  margin-bottom: 0.4rem;
+}
+
+/* Input & textarea */
+.luma-form-input {
+  background-color: var(--luma-about-bg) !important;
+  border: 1.5px solid rgba(194, 113, 96, 0.22) !important;
+  border-radius: 0.65rem !important;
+  padding: 0.75rem 1rem !important;
+  font-family: 'Bodoni Moda', serif !important;
+  font-size: 0.95rem !important;
+  color: var(--luma-olive-text) !important;
+  width: 100%;
+  transition: border-color var(--luma-transition),
+              box-shadow var(--luma-transition) !important;
+}
+
+.luma-form-input::placeholder {
+  color: rgba(107, 112, 90, 0.38) !important;
+  font-style: italic;
+}
+
+.luma-form-input:focus {
+  background-color: var(--luma-white) !important;
+  border-color: var(--luma-terracotta) !important;
+  box-shadow: 0 0 0 3px rgba(194, 113, 96, 0.14) !important;
+  outline: none !important;
+}
+
+textarea.luma-form-input {
+  resize: vertical;
+  min-height: 130px;
+}
+
+/* Thin divider between field groups */
+.luma-form-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(214, 200, 192, 0.4);
+  margin: 0.5rem 0;
+}
+
+/* Success message (shown after send) */
+.luma-form-success {
+  display: none;
+  text-align: center;
+  padding: 2.5rem 1rem;
+}
+
+.luma-form-success.luma-form-success--visible {
+  display: block;
+}
+
+.luma-form-success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(194, 113, 96, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  color: var(--luma-terracotta);
+}
+
+.luma-form-success-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--luma-rose-accent);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.luma-form-success-msg {
+  color: var(--luma-olive-text);
+  font-size: 1rem;
+  line-height: 1.7;
+}
