@@ -12,4 +12,5 @@ jobs:
       - name: Trigger deploy
         run: |
           curl -s -X POST https://lumabirth.com/deploy.php \
+            -A "Mozilla/5.0 (compatible; GitHub Actions)" \
             -d "token=${{ secrets.DEPLOY_SECRET }}"
