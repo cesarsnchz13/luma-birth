@@ -9,5 +9,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger cPanel Git Deploy
-        run: curl -s -X GET "${{ secrets.CPANEL_WEBHOOK_URL }}"
+      - name: Pull latest from GitHub to cPanel
+        run: |
+          curl -s -H "Authorization: cpanel duo1cennmnos:${{ secrets.CPANEL_API_TOKEN }}" \
+          "https://192.124.249.4:2083/execute/VersionControl/update?repository=/home/duo1cennmnos/repositories/luma-birth" -k
+
+      - name: Deploy via .cpanel.yml
+        run: |
+          curl -s -H "Authorization: cpanel duo1cennmnos:${{ secrets.CPANEL_API_TOKEN }}" \
+          "https://192.124.249.4:2083/execute/VersionControlDeployment/create?repository_root=/home/duo1cennmnos/repositories/luma-birth" -k
